@@ -15,6 +15,7 @@ NSString *const JPCANVAS_BASE_HTML =
     "<script type='text/javascript'>"
     "window.canvas = document.getElementById('canvas');"
     "window.context = window.canvas.getContext('2d');"
+//    "window.canvas.addEventListener('click', function() { document.write('hello'); });"
     "</script>"
     "</body></html>";
 
@@ -70,6 +71,9 @@ NSString *const JPCANVAS_BASE_HTML =
         _webView.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
         _webView.delegate = self;
         [_webView loadHTMLString:JPCANVAS_BASE_HTML baseURL:[NSURL URLWithString:@""]];
+        
+        // Disable panning
+        _webView.scrollView.scrollEnabled = NO;
     }
     return _webView;
 }
