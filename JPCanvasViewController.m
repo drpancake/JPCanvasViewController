@@ -66,7 +66,8 @@ NSString *const JPCANVAS_BASE_HTML =
 - (UIWebView *)webView
 {
     if (_webView == nil) {        
-        _webView = [[UIWebView alloc] initWithFrame:self.parentViewController.view.bounds];
+        _webView = [[UIWebView alloc] initWithFrame:CGRectZero];
+        _webView.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
         _webView.delegate = self;
         [_webView loadHTMLString:JPCANVAS_BASE_HTML baseURL:[NSURL URLWithString:@""]];
     }
