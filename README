@@ -3,4 +3,11 @@ First attempt at wrapping an HTML5 <canvas> element for use as a native view.
 Includes some conditional-compilation hackery to build in
 iOS (UIViewController/UIWebView) and OS X (NSViewController/WebView).
 
-Note: requires ARC (and WebKit.framework if building for OS X)
+Note: assumes ARC is available.
+
+Prerequisites
+-------------
+
+- SBJson
+- WebKit.framework (OS X only)
+
