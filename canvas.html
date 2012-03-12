@@ -30,6 +30,7 @@ http://jbkflex.wordpress.com/2011/11/28/html5-canvas-paint-app-for-iphone/
 var canvas = document.getElementById('canvas');
 var context = canvas.getContext('2d');
 var buttonDown = false;
+var currentPoints;
 
 // Detect iOS
 
@@ -37,6 +38,10 @@ var deviceAgent = navigator.userAgent.toLowerCase();
 iOSDetected = deviceAgent.match(/(iphone|ipod|ipad)/);
 
 // Helper functions
+
+function clearCanvas() {
+    context.clearRect(0, 0, canvas.width, canvas.height);
+}
 
 function getPosition(e) {
     var x, y;
@@ -61,16 +66,15 @@ handleResize();
 
 // Event handlers
 
-function clearCanvas() {
-    context.clearRect(0, 0, canvas.width, canvas.height);
-}
-
 function startPaint(e) {
     if (!buttonDown) {
         context.beginPath();
         var pos = getPosition(e);
         context.moveTo(pos.x, pos.y);
         buttonDown = true;
+
+        // Start recording this path
+        currentPoints = [pos];
     }
     e.preventDefault();
 }
@@ -80,14 +84,16 @@ function continuePaint(e) {
         var pos = getPosition(e);
         context.lineTo(pos.x, pos.y);
         context.stroke();
+
+        currentPoints.push(pos);
     }
 }
 
 function stopPaint() {
     buttonDown = false;
 
-    // NativeBridge test
-    NativeBridge.call("didDrawPoints", [[0, 0], [5, 10]]);
+    NativeBridge.call("didDrawPoints", currentPoints);
+    currentPoints = null;
 }
 
 // Bind events

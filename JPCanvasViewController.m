@@ -79,15 +79,23 @@
     
 	NSString *requestString = [[request URL] absoluteString];
     
+    if (_parser == nil)
+        _parser = [[SBJsonParser alloc] init];
+    
     if ([requestString hasPrefix:@"js-frame:"]) {
         NSLog(@"request : %@", requestString);
         
-//        NSArray *components = [requestString componentsSeparatedByString:@":"];
-//        
-//        NSString *function = (NSString *)[components objectAtIndex:1];
-//        NSString *argsAsString = [(NSString *)[components objectAtIndex:3] 
-//                                  stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-//        NSArray *args = (NSArray*)[json objectWithString:argsAsString error:nil];
+        NSArray *components = [requestString componentsSeparatedByString:@":"];
+        NSString *function = (NSString *)[components objectAtIndex:1];
+        
+        NSString *stringArgs = [(NSString *)[components objectAtIndex:3] 
+                                  stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+        NSArray *args = (NSArray *)[_parser objectWithString:stringArgs];
+        
+        // TODO: handler method
+        if ([function isEqualToString:@"didDrawPoints"]) {
+            NSLog(@"Got points: %@", args);
+        }
         
         return NO;
     }

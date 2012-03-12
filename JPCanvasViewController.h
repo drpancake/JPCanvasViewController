@@ -3,6 +3,8 @@
 //  Created by James Potter on 05/03/2012.
 //
 
+#import "SBJson.h"
+
 /*
   OS X
 */
@@ -11,7 +13,6 @@
 
 #import <Cocoa/Cocoa.h>
 #import <WebKit/WebKit.h>
-#import "SBJson.h"
 
 @interface JPCanvasViewController : NSViewController {
     @private
@@ -31,6 +32,7 @@
 @interface JPCanvasViewController : UIViewController<UIWebViewDelegate> {
     @private
     UIWebView *_webView;
+    SBJsonParser *_parser;
 }
 
 @property (nonatomic, strong, readonly) UIWebView *webView;
