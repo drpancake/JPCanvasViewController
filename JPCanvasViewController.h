@@ -3,8 +3,6 @@
 //  Created by James Potter on 05/03/2012.
 //
 
-extern NSString *const JPCANVAS_BASE_HTML;
-
 /*
   OS X
 */

@@ -1,0 +1,103 @@
+<!--
+Shared HTML/JS for a canvas spanning its entire WebView/UIWebView
+with no margins.
+      
+Drawing code derived from:
+http://www.williammalone.com/articles/create-html5-canvas-javascript-drawing-app/
+-->
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+        <style>
+            body {
+                margin: 0px;
+                width: 100%;
+                height: 100%;
+            }
+
+            canvas {
+                width: 100%;
+                height: 100%;
+            }
+        </style>
+    </head>
+    <body>
+        <canvas id="canvas"></canvas>
+
+        <script type="text/javascript">
+
+var canvas = document.getElementById('canvas');
+var context = canvas.getContext('2d');
+var buttonDown = false;
+
+// Detect iOS
+
+var deviceAgent = navigator.userAgent.toLowerCase();
+iOSDetected = deviceAgent.match(/(iphone|ipod|ipad)/);
+
+// Helper functions
+
+function getPosition(e) {
+    var x, y;
+    if (iOSDetected) {
+        x = e.touches[0].pageX;
+        y = e.touches[0].pageY;
+    } else {
+        x = e.pageX;
+        y = e.pageY;
+    }
+    return {x: x, y: y};
+}
+
+// Fit canvas to viewport
+
+function handleResize() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+}
+window.addEventListener('resize', handleResize, false);
+handleResize();
+
+// Event handlers
+
+function clearCanvas() {
+    context.clearRect(0, 0, canvas.width, canvas.height);
+}
+
+function startPaint(e) {
+    if (!buttonDown) {
+        context.beginPath();
+        var pos = getPosition(e);
+        context.moveTo(pos.x, pos.y);
+        buttonDown = true;
+    }
+    e.preventDefault();
+}
+
+function continuePaint(e) {
+    if (buttonDown) {
+        var pos = getPosition(e);
+        context.lineTo(pos.x, pos.y);
+        context.stroke();
+    }
+}
+
+function stopPaint() {
+    buttonDown = false;
+}
+
+// Bind events
+
+if (iOSDetected) {
+    canvas.addEventListener('touchstart', startPaint, false);
+    canvas.addEventListener('touchmove', continuePaint, false);
+    canvas.addEventListener('touchend', stopPaint, false);
+} else {
+    canvas.addEventListener('mousedown', startPaint, false);
+    canvas.addEventListener('mousemove', continuePaint, false);
+    canvas.addEventListener('mouseup', stopPaint, false);
+}
+
+        </script>
+    </body>
+</html>

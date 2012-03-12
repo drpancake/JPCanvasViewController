@@ -5,20 +5,6 @@
 
 #import "JPCanvasViewController.h"
 
-/*
-  Shared HTML for a canvas spanning its entire WebView/UIWebView
-  with no margins
-*/
-NSString *const JPCANVAS_BASE_HTML = 
-    @"<html><body style='margin: 0'>"
-    "<canvas style='width: 100%; height=100%' id='canvas'></canvas>"
-    "<script type='text/javascript'>"
-    "window.canvas = document.getElementById('canvas');"
-    "window.context = window.canvas.getContext('2d');"
-//    "window.canvas.addEventListener('click', function() { document.write('hello'); });"
-    "</script>"
-    "</body></html>";
-
 @implementation JPCanvasViewController
 
 @synthesize webView=_webView;
@@ -32,8 +18,7 @@ NSString *const JPCANVAS_BASE_HTML =
 - (WebView *)webView
 {
     if (_webView == nil) {
-        // Dummy size for now (TODO: figure out how to inherit sizing)
-        _webView = [[WebView alloc] initWithFrame:CGRectMake(0, 0, 500, 500)];
+        _webView = [[WebView alloc] initWithFrame:CGRectZero];
     }
     return _webView;
 }
@@ -44,10 +29,10 @@ NSString *const JPCANVAS_BASE_HTML =
     [super loadView];
     
     [self.webView setFrameLoadDelegate:self];
-    
+
     WebFrame *webFrame = [self.webView mainFrame];
-    [webFrame loadHTMLString:JPCANVAS_BASE_HTML baseURL:[NSURL URLWithString:@""]];
-    
+    NSString *path = [[NSBundle mainBundle] pathForResource:@"canvas" ofType:@"html"];
+    [webFrame loadRequest:[NSURLRequest requestWithURL:[NSURL fileURLWithPath:path]]];
     [self setView:self.webView];
 }
 
@@ -70,7 +55,10 @@ NSString *const JPCANVAS_BASE_HTML =
         _webView = [[UIWebView alloc] initWithFrame:CGRectZero];
         _webView.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
         _webView.delegate = self;
-        [_webView loadHTMLString:JPCANVAS_BASE_HTML baseURL:[NSURL URLWithString:@""]];
+        
+        //[_webView loadHTMLString:JPCANVAS_BASE_HTML baseURL:[NSURL URLWithString:@""]];
+        NSString *path = [[NSBundle mainBundle] pathForResource:@"canvas" ofType:@"html"];
+        [_webView loadRequest:[NSURLRequest requestWithURL:[NSURL fileURLWithPath:path]]];
         
         // Disable panning
         _webView.scrollView.scrollEnabled = NO;
