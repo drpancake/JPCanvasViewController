@@ -73,6 +73,28 @@
     [self execute:js];
 }
 
+- (BOOL)webView:(UIWebView *)theWebView
+    shouldStartLoadWithRequest:(NSURLRequest *)request
+ navigationType:(UIWebViewNavigationType)navigationType {
+    
+	NSString *requestString = [[request URL] absoluteString];
+    
+    if ([requestString hasPrefix:@"js-frame:"]) {
+        NSLog(@"request : %@", requestString);
+        
+//        NSArray *components = [requestString componentsSeparatedByString:@":"];
+//        
+//        NSString *function = (NSString *)[components objectAtIndex:1];
+//        NSString *argsAsString = [(NSString *)[components objectAtIndex:3] 
+//                                  stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+//        NSArray *args = (NSArray*)[json objectWithString:argsAsString error:nil];
+        
+        return NO;
+    }
+    
+    return YES;
+}
+
 - (UIView *)view
 {
     return self.webView;

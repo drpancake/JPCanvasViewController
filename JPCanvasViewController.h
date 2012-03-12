@@ -11,6 +11,7 @@
 
 #import <Cocoa/Cocoa.h>
 #import <WebKit/WebKit.h>
+#import "SBJson.h"
 
 @interface JPCanvasViewController : NSViewController {
     @private

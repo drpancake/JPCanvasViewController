@@ -3,11 +3,12 @@ Shared HTML/JS for a canvas spanning its entire WebView/UIWebView
 with no margins.
       
 Drawing code derived from:
-http://www.williammalone.com/articles/create-html5-canvas-javascript-drawing-app/
+http://jbkflex.wordpress.com/2011/11/28/html5-canvas-paint-app-for-iphone/
 -->
 <html>
     <head>
         <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+        <script type="text/javascript" src="NativeBridge.js"></script>
         <style>
             body {
                 margin: 0px;
@@ -84,6 +85,9 @@ function continuePaint(e) {
 
 function stopPaint() {
     buttonDown = false;
+
+    // NativeBridge test
+    NativeBridge.call("didDrawPoints", [[0, 0], [5, 10]]);
 }
 
 // Bind events
