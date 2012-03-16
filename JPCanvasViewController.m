@@ -8,6 +8,7 @@
 @implementation JPCanvasViewController
 
 @synthesize webView=_webView;
+@synthesize delegate;
 
 /*
   OS X specific methods for preparing a WebView
@@ -94,7 +95,8 @@
         
         // TODO: handler method
         if ([function isEqualToString:@"didDrawPoints"]) {
-            NSLog(@"Got points: %@", args);
+            NSLog(@"JPCanvas got %i points", [args count]);
+            [self.delegate canvas:self didDrawPoints:args];
         }
         
         return NO;

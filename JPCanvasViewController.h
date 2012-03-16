@@ -3,6 +3,7 @@
 //  Created by James Potter on 05/03/2012.
 //
 
+#import "JPCanvasViewControllerDelegate.h"
 #import "SBJson.h"
 
 /*
@@ -40,8 +41,10 @@
 #endif
 
 /*
-  Shared methods
+  Shared
 */
+
+@property (nonatomic, weak) id<JPCanvasViewControllerDelegate> delegate;
 
 - (NSString *)execute:(NSString *)js;
 
