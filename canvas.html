@@ -30,7 +30,7 @@ http://jbkflex.wordpress.com/2011/11/28/html5-canvas-paint-app-for-iphone/
 var canvas = document.getElementById('canvas');
 var context = canvas.getContext('2d');
 var buttonDown = false;
-var currentPoints;
+var currentPoints; // Flat list: [x1, y1, x2, y2, ...]
 
 // Detect iOS
 
@@ -74,7 +74,9 @@ function startPaint(e) {
         buttonDown = true;
 
         // Start recording this path
-        currentPoints = [pos];
+        currentPoints = [];
+        currentPoints.push(pos.x);
+        currentPoints.push(pos.y);
     }
     e.preventDefault();
 }
@@ -84,8 +86,10 @@ function continuePaint(e) {
         var pos = getPosition(e);
         context.lineTo(pos.x, pos.y);
         context.stroke();
-
-        currentPoints.push(pos);
+        
+        // Add to the path
+        currentPoints.push(pos.x);
+        currentPoints.push(pos.y);
     }
 }
 

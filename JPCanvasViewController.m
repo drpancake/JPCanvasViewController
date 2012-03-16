@@ -95,7 +95,7 @@
         
         // TODO: handler method
         if ([function isEqualToString:@"didDrawPoints"]) {
-            NSLog(@"JPCanvas got %i points", [args count]);
+            NSLog(@"JPCanvas got points (len = %i)", [args count]);
             [self.delegate canvas:self didDrawPoints:args];
         }
         
