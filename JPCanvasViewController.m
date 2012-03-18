@@ -47,7 +47,6 @@
 {
     NSString *js = @"window.context.fillStyle='red'; window.context.fillRect(50, 50, 100, 100);";
     [self execute:js];
-//    [self execute:@"document.getElementById('test').innerHTML = 'ans = ' + window.controller.callTest_('hiii');"];
 }
 
 // Tell WebScriptObject which methods to expose to JS
@@ -148,6 +147,12 @@
 - (NSString *)execute:(NSString *)js
 {
     return [self.webView stringByEvaluatingJavaScriptFromString:js];
+}
+
+- (void)drawPoints:(NSArray *)points
+{    
+    NSString *js = [NSString stringWithFormat:@"drawPoints([%@]);", [points componentsJoinedByString:@","]];
+    [self execute:js];
 }
 
 @end

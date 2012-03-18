@@ -54,5 +54,6 @@
 //@property (nonatomic, weak) id<JPCanvasViewControllerDelegate> delegate;
 
 - (NSString *)execute:(NSString *)js;
+- (void)drawPoints:(NSArray *)points;
 
 @end
