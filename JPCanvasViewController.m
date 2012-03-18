@@ -26,9 +26,6 @@
 
 - (void)loadView
 {
-    // Load nib
-    [super loadView];
-    
     [self.webView setFrameLoadDelegate:self];
 
     WebFrame *webFrame = [self.webView mainFrame];
@@ -37,11 +34,42 @@
     [self setView:self.webView];
 }
 
-// WebFrameLoadDelegate
+// WebFrameLoadDelegate method
+- (void)webView:(WebView *)sender didClearWindowObject:(WebScriptObject *)windowObject forFrame:(WebFrame *)frame
+{
+    // Expose this JPCanvasViewController instance to JS
+    WebScriptObject *window = [self.webView windowScriptObject];
+    [window setValue:self forKey:@"controller"];
+}
+
+// WebFrameLoadDelegate method
 - (void)webView:(WebView *)sender didFinishLoadForFrame:(WebFrame *)frame
 {
     NSString *js = @"window.context.fillStyle='red'; window.context.fillRect(50, 50, 100, 100);";
     [self execute:js];
+//    [self execute:@"document.getElementById('test').innerHTML = 'ans = ' + window.controller.callTest_('hiii');"];
+}
+
+// Tell WebScriptObject which methods to expose to JS
++ (BOOL)isSelectorExcludedFromWebScript:(SEL)selector
+{
+    if (selector == @selector(didDrawPoints:)) {
+        return NO;
+    }
+    return YES;
+}
+
+- (void)didDrawPoints:(WebScriptObject *)scriptObject
+{
+    int length = [(NSNumber *)[scriptObject valueForKey:@"length"] intValue];
+    NSMutableArray *points = [[NSMutableArray alloc] initWithCapacity:length];
+    WebScriptObject *pointsObject = [scriptObject valueForKey:@"points"];
+    for (int i=0; i < length; i++) {
+        [points addObject:[pointsObject webScriptValueAtIndex:i]];
+    }
+         
+    NSLog(@"didDrawPoints got %lu points", [points count]);
+    [self.delegate canvas:self didDrawPoints:points];
 }
 
 /*

@@ -20,7 +20,12 @@
     WebView *_webView;
 }
 
+- (void)didDrawPoints:(WebScriptObject *)scriptObject;
+
 @property (nonatomic, strong, readonly) WebView *webView;
+
+// TODO: fix runtime error if this is set to a weak reference (ARC bug?)
+@property (nonatomic, strong) id<JPCanvasViewControllerDelegate> delegate;
 
 /*
   iOS
@@ -37,6 +42,7 @@
 }
 
 @property (nonatomic, strong, readonly) UIWebView *webView;
+@property (nonatomic, weak) id<JPCanvasViewControllerDelegate> delegate;
 
 #endif
 
@@ -44,7 +50,8 @@
   Shared
 */
 
-@property (nonatomic, weak) id<JPCanvasViewControllerDelegate> delegate;
+// TODO: this should be shared
+//@property (nonatomic, weak) id<JPCanvasViewControllerDelegate> delegate;
 
 - (NSString *)execute:(NSString *)js;
 

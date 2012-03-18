@@ -95,8 +95,14 @@ function continuePaint(e) {
 
 function stopPaint() {
     buttonDown = false;
-
-    NativeBridge.call("didDrawPoints", currentPoints);
+    
+    if (iOSDetected) {
+        NativeBridge.call("didDrawPoints", currentPoints);
+    } else {
+        // WebKit type conversions require us to specify the array's length
+        window.controller.didDrawPoints_({length: currentPoints.length, points: currentPoints});
+    }
+    
     currentPoints = null;
 }
 
