@@ -24,8 +24,8 @@
 
 @property (nonatomic, strong, readonly) WebView *webView;
 
-// TODO: fix runtime error if this is set to a weak reference (ARC bug?)
-@property (nonatomic, strong) id<JPCanvasViewControllerDelegate> delegate;
+// Must be assign rather than weak (as NSViewController doesn't support it yet)
+@property (nonatomic, assign) id<JPCanvasViewControllerDelegate> delegate;
 
 /*
   iOS
@@ -50,7 +50,7 @@
   Shared
 */
 
-// TODO: this should be shared
+// TODO: eventually this should be shared when NSViewController supports weak
 //@property (nonatomic, weak) id<JPCanvasViewControllerDelegate> delegate;
 
 - (NSString *)execute:(NSString *)js;
