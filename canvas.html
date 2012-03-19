@@ -63,6 +63,16 @@ function handleResize() {
 }
 window.addEventListener('resize', handleResize, false);
 handleResize();
+            
+function sendPoints(points) {
+    if (points == null || points.length < 1) return;
+    if (iOSDetected) {
+        NativeBridge.call("didDrawPoints", points);
+    } else {
+        // WebKit type conversions require us to specify the array's length
+        window.controller.didDrawPoints_({length: points.length, points: points});
+    }
+}
 
 // Event handlers
 
@@ -90,19 +100,18 @@ function continuePaint(e) {
         // Add to the path
         currentPoints.push(pos.x);
         currentPoints.push(pos.y);
+        
+        if (currentPoints.length >= 8) {
+            sendPoints(currentPoints.slice(0)); // copied
+            // Keep last two points
+            currentPoints = currentPoints.slice(currentPoints.length - 2);
+        }
     }
 }
 
 function stopPaint() {
     buttonDown = false;
-    
-    if (iOSDetected) {
-        NativeBridge.call("didDrawPoints", currentPoints);
-    } else {
-        // WebKit type conversions require us to specify the array's length
-        window.controller.didDrawPoints_({length: currentPoints.length, points: currentPoints});
-    }
-    
+    sendPoints(currentPoints);
     currentPoints = null;
 }
 
