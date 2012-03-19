@@ -45,8 +45,7 @@
 // WebFrameLoadDelegate method
 - (void)webView:(WebView *)sender didFinishLoadForFrame:(WebFrame *)frame
 {
-    NSString *js = @"window.context.fillStyle='red'; window.context.fillRect(50, 50, 100, 100);";
-    [self execute:js];
+    [self.delegate canvasDidFinishLoad:self];
 }
 
 // Tell WebScriptObject which methods to expose to JS
@@ -97,8 +96,7 @@
 // UIWebViewDelegate
 - (void)webViewDidFinishLoad:(UIWebView *)theWebView
 {
-    NSString *js = @"window.context.fillStyle='red'; window.context.fillRect(50, 50, 100, 100);";
-    [self execute:js];
+    [self.delegate canvasDidFinishLoad:self];
 }
 
 - (BOOL)webView:(UIWebView *)theWebView

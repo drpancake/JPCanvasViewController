@@ -14,4 +14,7 @@
 
 - (void)canvas:(JPCanvasViewController *)canvas didDrawPoints:(NSArray *)points;
 
+// Page is loaded, ready for execute: method to be used
+- (void)canvasDidFinishLoad:(JPCanvasViewController *)canvas;
+
 @end
