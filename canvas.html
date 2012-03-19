@@ -54,6 +54,14 @@ function getPosition(e) {
     }
     return {x: x, y: y};
 }
+            
+function setStyle() {
+    // Styling (temp)
+    context.strokeStyle = 'rgba(0, 0, 0, 0.1)';
+    context.lineWidth = 10;
+    context.lineJoin = 'round';
+    context.lineCap = 'round';
+}
 
 // Fit canvas to viewport
 
@@ -95,6 +103,8 @@ function continuePaint(e) {
     if (buttonDown) {
         var pos = getPosition(e);
         context.lineTo(pos.x, pos.y);
+        
+        setStyle();
         context.stroke();
         
         // Add to the path
@@ -141,6 +151,8 @@ function drawPoints(points) {
             context.lineTo(points[i], points[i+1]);
         }
     }
+    
+    setStyle();
     context.stroke();
 }
 
