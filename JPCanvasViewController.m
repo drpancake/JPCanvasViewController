@@ -45,7 +45,8 @@
 // WebFrameLoadDelegate method
 - (void)webView:(WebView *)sender didFinishLoadForFrame:(WebFrame *)frame
 {
-    [self.delegate canvasDidFinishLoad:self];
+    if ([self.delegate respondsToSelector:@selector(canvasDidFinishLoad:)])
+        [self.delegate canvasDidFinishLoad:self];
 }
 
 // Tell WebScriptObject which methods to expose to JS
@@ -96,7 +97,8 @@
 // UIWebViewDelegate
 - (void)webViewDidFinishLoad:(UIWebView *)theWebView
 {
-    [self.delegate canvasDidFinishLoad:self];
+    if ([self.delegate respondsToSelector:@selector(canvasDidFinishLoad:)])
+        [self.delegate canvasDidFinishLoad:self];
 }
 
 - (BOOL)webView:(UIWebView *)theWebView
