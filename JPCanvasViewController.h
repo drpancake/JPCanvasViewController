@@ -56,4 +56,7 @@
 - (NSString *)execute:(NSString *)js;
 - (void)drawPoints:(NSArray *)points;
 
+// e.g. "rgba(255, 0, 0, 0.5)"
+@property (nonatomic, strong, readwrite) NSString *strokeColor;
+
 @end

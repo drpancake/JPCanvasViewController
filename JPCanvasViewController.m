@@ -9,6 +9,7 @@
 
 @synthesize webView=_webView;
 @synthesize delegate;
+@synthesize strokeColor;
 
 /*
   OS X specific methods for preparing a WebView
@@ -66,8 +67,7 @@
     for (int i=0; i < length; i++) {
         [points addObject:[pointsObject webScriptValueAtIndex:i]];
     }
-         
-    NSLog(@"didDrawPoints got %lu points", [points count]);
+    
     [self.delegate canvas:self didDrawPoints:points];
 }
 
@@ -153,6 +153,12 @@
 {    
     NSString *js = [NSString stringWithFormat:@"drawPoints([%@]);", [points componentsJoinedByString:@","]];
     [self execute:js];
+}
+
+- (void)setStrokeColor:(NSString *)theStrokeColor
+{
+    [self execute:[NSString stringWithFormat:@"setStrokeColor('%@');", theStrokeColor]];
+    strokeColor = theStrokeColor;
 }
 
 @end
