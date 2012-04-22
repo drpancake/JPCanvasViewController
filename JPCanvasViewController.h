@@ -54,7 +54,9 @@
 //@property (nonatomic, weak) id<JPCanvasViewControllerDelegate> delegate;
 
 - (NSString *)execute:(NSString *)js;
-- (void)drawPoints:(NSArray *)points;
+
+- (void)drawPoints:(NSArray *)points; // Does not notify delegate
+- (void)drawPoints:(NSArray *)points notifyDelegate:(BOOL)notify;
 
 // e.g. "rgba(255, 0, 0, 0.5)"
 @property (nonatomic, strong, readwrite) NSString *strokeColor;

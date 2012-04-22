@@ -151,8 +151,16 @@
 
 - (void)drawPoints:(NSArray *)points
 {    
+    [self drawPoints:points notifyDelegate:NO];
+}
+
+- (void)drawPoints:(NSArray *)points notifyDelegate:(BOOL)notify
+{
     NSString *js = [NSString stringWithFormat:@"drawPoints([%@]);", [points componentsJoinedByString:@","]];
     [self execute:js];
+    
+    if (notify)
+        [self.delegate canvas:self didDrawPoints:points];
 }
 
 - (void)setStrokeColor:(NSString *)theStrokeColor
